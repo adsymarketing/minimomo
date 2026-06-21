@@ -1,0 +1,160 @@
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { Navbar } from "@/components/site/Navbar";
+import { Footer } from "@/components/site/Footer";
+import { PageHeader, VisitCTASection } from "@/components/site/sections";
+import hero from "@/assets/hero-playlounge.jpg";
+import { useState } from "react";
+import { ChevronDown } from "lucide-react";
+
+const faqs = [
+  {
+    q: "What ages is MiniMomo Playlounge designed for?",
+    a: "Our zones are designed for kids aged 1 to 10. Toddlers have soft, low-height play areas while big kids enjoy the slides, climbers and pretend-play zones.",
+  },
+  {
+    q: "Do parents have to pay?",
+    a: "Nope — parents are always free. Bring a book, grab a coffee at the cafe corner and relax while the kids play.",
+  },
+  {
+    q: "How much does it cost per child?",
+    a: "₹290 per child on weekdays (Mon–Fri) and ₹450 per child on weekends (Sat & Sun). One ticket = unlimited play time across every zone.",
+  },
+  {
+    q: "Are socks compulsory?",
+    a: "Yes, socks are compulsory for everyone entering the play area — kids and adults. Forgot a pair? We sell fresh ones at the counter for ₹70.",
+  },
+  {
+    q: "Do I need to book in advance?",
+    a: "Walk-ins are welcome any day, 10 AM – 10 PM. For birthdays or group visits of 8+, please call us at 9663 481 122 so we can keep a spot ready.",
+  },
+  {
+    q: "What's included in a birthday party package?",
+    a: "Our party packages are tailored for 15–20 kids and include an exclusive decorated party area, full access to all play zones, a co-ordinator, music and games. Cake, food and return gifts can be added on.",
+  },
+  {
+    q: "Is the equipment cleaned regularly?",
+    a: "Yes — toys and surfaces are sanitised through the day and we do a full deep-clean every night. Hygiene is one of our three core promises.",
+  },
+  {
+    q: "Can we bring outside food?",
+    a: "Outside food isn't permitted in the play area, but our cafe corner serves snacks, drinks and coffee. Birthday cakes are absolutely welcome — just let us know in advance.",
+  },
+  {
+    q: "Where exactly are you located?",
+    a: "Second Floor, SFO7, Inorbit Mall, Gokul Road, Hubballi. Free mall parking is available.",
+  },
+  {
+    q: "Do you have a calm space for kids who get overwhelmed?",
+    a: "Yes. Our sand & seed pit and pretend-play zones (clinic, supermarket, cafe) are quieter sensory corners that work beautifully for kids who need a slower-paced break.",
+  },
+];
+
+export const Route = createFileRoute("/faq")({
+  head: () => ({
+    meta: [
+      { title: "FAQ — MiniMomo Playlounge, Hubli" },
+      {
+        name: "description",
+        content:
+          "Answers to common questions about MiniMomo Playlounge — pricing, timings, age range, parties, socks policy and more.",
+      },
+      { property: "og:title", content: "FAQ — MiniMomo Playlounge" },
+      { property: "og:description", content: "Pricing, timings, ages, parties — everything you need to know." },
+      { property: "og:image", content: hero },
+      { name: "twitter:image", content: hero },
+      { property: "og:url", content: "/faq" },
+    ],
+    links: [{ rel: "canonical", href: "/faq" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: faqs.map((f) => ({
+            "@type": "Question",
+            name: f.q,
+            acceptedAnswer: { "@type": "Answer", text: f.a },
+          })),
+        }),
+      },
+    ],
+  }),
+  component: FAQPage,
+});
+
+function FAQPage() {
+  const [open, setOpen] = useState<number | null>(0);
+  return (
+    <div className="min-h-screen bg-background">
+      <Navbar />
+      <PageHeader
+        eyebrow="FAQ"
+        title={
+          <>
+            Quick answers, <span className="text-gradient-candy">zero fuss.</span>
+          </>
+        }
+        subtitle="Everything parents usually ask — pricing, timings, socks, parties and more. Still curious? Just give us a call."
+      />
+
+      <section className="mx-auto max-w-3xl px-6 pb-16 md:pb-24">
+        <div className="space-y-3">
+          {faqs.map((f, i) => {
+            const isOpen = open === i;
+            return (
+              <div
+                key={f.q}
+                className={`rounded-[1.5rem] border-2 border-border bg-card ring-tile transition ${
+                  isOpen ? "bg-yellow/30" : ""
+                }`}
+              >
+                <button
+                  onClick={() => setOpen(isOpen ? null : i)}
+                  aria-expanded={isOpen}
+                  className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left"
+                >
+                  <span className="font-display text-base font-700 md:text-lg">{f.q}</span>
+                  <span
+                    className={`grid h-9 w-9 shrink-0 place-items-center rounded-full bg-pink text-primary-foreground transition ${
+                      isOpen ? "rotate-180" : ""
+                    }`}
+                  >
+                    <ChevronDown size={18} />
+                  </span>
+                </button>
+                {isOpen && (
+                  <div className="px-5 pb-5 text-muted-foreground">{f.a}</div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="mt-12 rounded-[2rem] border-2 border-border bg-sky/30 p-6 text-center ring-tile">
+          <h2 className="font-display text-2xl font-700">Still have a question?</h2>
+          <p className="mt-1 text-muted-foreground">
+            Drop us a line and we'll get back to you the same day.
+          </p>
+          <div className="mt-5 flex flex-wrap justify-center gap-3">
+            <a
+              href="tel:+919663481122"
+              className="rounded-full bg-primary px-6 py-3 font-display font-700 text-primary-foreground shadow-pop transition hover:-translate-y-0.5"
+            >
+              Call 9663 481 122
+            </a>
+            <Link
+              to="/visit"
+              className="rounded-full border-2 border-foreground px-6 py-3 font-display font-700 transition hover:bg-yellow/60"
+            >
+              Send us a message
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <VisitCTASection />
+      <Footer />
+    </div>
+  );
+}

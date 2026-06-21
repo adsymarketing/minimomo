@@ -1,0 +1,112 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { Navbar } from "@/components/site/Navbar";
+import { Footer } from "@/components/site/Footer";
+import { PageHeader, VisitCTASection } from "@/components/site/sections";
+import ballPit from "@/assets/ball-pit.jpg";
+import slide from "@/assets/slide.jpg";
+import climber from "@/assets/climber.jpg";
+import spiderweb from "@/assets/spiderweb.jpg";
+import ballblower from "@/assets/ballblower.jpg";
+import sandpit from "@/assets/sandpit.jpg";
+import garage from "@/assets/garage.jpg";
+import clinic from "@/assets/clinic.jpg";
+import supermarket from "@/assets/supermarket.jpg";
+import cafe from "@/assets/cafe.jpg";
+import birthday from "@/assets/birthday.jpg";
+import hero from "@/assets/hero-playlounge.jpg";
+import { Instagram } from "lucide-react";
+
+export const Route = createFileRoute("/gallery")({
+  head: () => ({
+    meta: [
+      { title: "Gallery — MiniMomo Playlounge, Hubli" },
+      {
+        name: "description",
+        content:
+          "Peek inside MiniMomo Playlounge — photos of our ball pit, slides, pretend-play zones, parties and cafe corner at Inorbit Mall, Hubli.",
+      },
+      { property: "og:title", content: "Gallery — MiniMomo Playlounge" },
+      { property: "og:description", content: "A look inside the most colourful indoor playlounge in Hubli." },
+      { property: "og:image", content: hero },
+      { name: "twitter:image", content: hero },
+      { property: "og:url", content: "/gallery" },
+    ],
+    links: [{ rel: "canonical", href: "/gallery" }],
+  }),
+  component: GalleryPage,
+});
+
+const tiles = [
+  { src: hero, alt: "MiniMomo interior overview", span: "md:col-span-2 md:row-span-2", tag: "Inside MiniMomo" },
+  { src: ballPit, alt: "Pastel ball pit", tag: "Ball pit" },
+  { src: slide, alt: "Yellow slide", tag: "Big slide" },
+  { src: climber, alt: "Wall climber", span: "md:row-span-2", tag: "Wall climber" },
+  { src: spiderweb, alt: "Spider web rope play", tag: "Spider web" },
+  { src: ballblower, alt: "Ball blower", tag: "Ball blower" },
+  { src: sandpit, alt: "Sand and seed pit", span: "md:col-span-2", tag: "Sand & seeds" },
+  { src: garage, alt: "MiniMomo garage", tag: "Garage" },
+  { src: clinic, alt: "MiniMomo clinic", tag: "Clinic" },
+  { src: supermarket, alt: "MiniMomo supermarket", span: "md:col-span-2", tag: "Supermarket" },
+  { src: cafe, alt: "MiniMomo cafe", tag: "Cafe" },
+  { src: birthday, alt: "Birthday party setup", span: "md:col-span-2", tag: "Birthdays" },
+];
+
+function GalleryPage() {
+  return (
+    <div className="min-h-screen bg-background">
+      <Navbar />
+      <PageHeader
+        eyebrow="Gallery"
+        title={
+          <>
+            A peek inside <span className="text-gradient-candy">MiniMomo.</span>
+          </>
+        }
+        subtitle="Bright corners, big smiles and a little chaos — exactly the way we like it."
+      />
+
+      <section className="mx-auto max-w-7xl px-6 pb-16 md:px-8 md:pb-24">
+        <div className="grid auto-rows-[220px] grid-cols-2 gap-4 md:grid-cols-4 md:gap-5">
+          {tiles.map((t, i) => (
+            <figure
+              key={t.alt}
+              className={`group relative overflow-hidden rounded-[1.75rem] ring-tile ${t.span ?? ""}`}
+              style={{ transform: i % 3 === 1 ? "rotate(-0.4deg)" : "rotate(0.3deg)" }}
+            >
+              <img
+                src={t.src}
+                alt={t.alt}
+                loading="lazy"
+                className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
+              />
+              <figcaption className="absolute inset-x-3 bottom-3 flex items-center justify-between rounded-full bg-background/85 px-3 py-1.5 font-display text-xs font-700 backdrop-blur">
+                <span>{t.tag}</span>
+                <span className="text-pink">●</span>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-6 pb-24 md:px-8">
+        <div className="flex flex-col items-center gap-4 rounded-[2rem] border-2 border-border bg-pink/10 p-8 text-center ring-tile md:flex-row md:justify-between md:text-left">
+          <div>
+            <h2 className="font-display text-2xl font-700 md:text-3xl">See it all live on Instagram</h2>
+            <p className="mt-1 text-muted-foreground">Daily snaps from the playlounge — follow along.</p>
+          </div>
+          <a
+            href="https://www.instagram.com/minimomo_playlounge/"
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-2 rounded-full bg-pink px-6 py-3 font-display font-700 text-primary-foreground shadow-pop transition hover:-translate-y-0.5"
+          >
+            <Instagram size={18} /> @minimomo_playlounge
+          </a>
+        </div>
+      </section>
+
+      <VisitCTASection />
+      <Footer />
+    </div>
+  );
+}
